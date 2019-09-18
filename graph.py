@@ -186,35 +186,7 @@ def Dijkstra_FibHeap(G, start_node, end_node = None):
                         path.append(curr_node)
                 return distance_ver[G.get_vertex(end_node)], path[::-1]
 
-import random
-import string
-import math
-def gen_random_graph(num_ver, num_edge):
-        Gr = Graph()
-        len_s_max = int(math.log(num_ver, 26)) + 1
-        l = []
-        while(True):
-                s = ''
-                for i in range(len_s_max):
-                        s1 = random.choice(string.ascii_uppercase)
-                        s += s1
-                if(s in l):
-                        continue
-                l.append(s)
-                Gr.add_vertex(s)
-                if len(l) == num_ver :
-                        break
-        for j in range(num_edge):
-                start = random.choice(Gr.list_vertexes())
-                while(True):
-                        end = random.choice(Gr.list_vertexes())
-                        if end != start :
-                                break
-                weights = random.randint(1, 10)
-                Gr.add_connection(start, end, weights)
-        return Gr
-
-
+        # Test Graph
 G = Graph()
 G.add_vertex('A')
 G.add_vertex('B')
@@ -233,36 +205,22 @@ G.add_connection('D', 'E', 4)
 G.add_connection('E', 'B', 0.01)
 G.add_connection('E', 'D', 3)
 G.add_connection('F', 'E', 1)
-G.__str__()
-print(G.list_vertexes())
-G.edges
+#G.__str__()
+#print(G.list_vertexes())
+#G.edges
 
-Gr = gen_random_graph(1000, 90000)
 Dijkstra_greedy(G, 'A')
 Dijkstra_greedy(G, 'A', 'D')
 Dijkstra_MinHeap(G, 'A')
 Dijkstra_MinHeap(G, 'A', 'D')
-Dijkstra_FibHeap(G, 'A', 'D')
-import time
-test1 = random.choice(Gr.list_vertexes())
-test2 = random.choice(Gr.list_vertexes())
-start = time.time()
-k,h = Dijkstra_MinHeap(Gr, test1)
-end = time.time()
-print(end-start)
+#Dijkstra_FibHeap(G, 'A', 'D') - check later
 
-start = time.time()
-k,h = Dijkstra_greedy(Gr, test1)
-end = time.time()
-print(end-start)
-
-x,path = Dijkstra_MinHeap(Gr, test1, test2)
-
-Drawing = Graph_Drawing(Gr)
-plt.figure(1)
-position = Drawing.draw_graph()
-plt.figure(2)
-Drawing.draw_path(path, position)
+        # Test GraphDrawing.py
+#Drawing = Graph_Drawing(Gr)
+#plt.figure(1)
+#position = Drawing.draw_graph()
+#plt.figure(2)
+#Drawing.draw_path(path, position)
 
 
 
