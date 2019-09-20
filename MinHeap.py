@@ -48,12 +48,12 @@ class MinHeap:
         def getMin(self): 
                 return self.heap[0]
 
-m = MinHeap()
-m.insertKey(2)
-m.insertKey(10)
-m.insertKey(3)
-m.insertKey(7)
-m.insertKey(5)
-m.insertKey(12)
-m.heap
+#m = MinHeap()
+#m.insertKey(2)
+#m.insertKey(10)
+#m.insertKey(3)
+#m.insertKey(7)
+#m.insertKey(5)
+#m.insertKey(12)
+#m.heap
 
