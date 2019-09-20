@@ -194,7 +194,7 @@ def Dijkstra_FibHeap(G, start_node, end_node = None):
                 current_distance, current_vertex = fheappop(fheap)
                 if current_distance > distance_ver[current_vertex] :
                         continue
-                # O(Elog(V)) complexity to loop and push node
+                # O(E) complexity to loop and push node
                 for nei in current_vertex.list_neighbors():
                         distance = current_distance + current_vertex.get_weight(nei)
                         if distance < distance_ver[nei]:
