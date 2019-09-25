@@ -4,7 +4,7 @@ from MinHeap import MinHeap
 from FiboHeap import makefheap, fheappush, fheappop
 import heapq
 import fibheap
-from GraphDrawing import Graph_Drawing
+#from GraphDrawing import Graph_Drawing
 
 
 class Vertex:
@@ -27,7 +27,8 @@ class Vertex:
         def __lt__(self, other_vertex):
                 # vertex with index is number or digit
                 return self.index < other_vertex.index
-        
+
+
 class Graph :
         
         def __init__(self, ver_dict = None):

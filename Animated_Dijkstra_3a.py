@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import networkx as nx
 import math
 from FiboHeap import makefheap, fheappush, fheappop 
-from test_complexity import gen_random_fullGraph, gen_random_graph
+#from test_complexity import gen_random_fullGraph, gen_random_graph
 import time
 from heapq import heappush, heappop
 import random
@@ -53,7 +53,7 @@ def animated_Dijkstra_MinHeap(G, Gx, pos, start_node, n):
                 if current_distance > distance_ver[current_vertex] :
                         continue
                 nx.draw_networkx_nodes(G, pos, nodelist = [current_vertex.index], node_color = 'red', node_size = 200, font_size = 12)
-           
+                txt = current_vertex.index + ':' + str(current_distance)
                 for nei in current_vertex.list_neighbors():
                         distance = current_distance + current_vertex.get_weight(nei)
                         if distance < distance_ver[nei]:
@@ -93,7 +93,9 @@ def animated_Dijkstra_MinHeap_path(G, Gx, pos, start_node, end_node, n):
                         path = path[::-1]
                         for i in range(len(path)-1):
                                 nx.draw_networkx_edges(Gx, pos, edgelist = [(path[i], path[i+1])],  width = 3, edge_color = 'black')
-                        plt.text(-1.05,-1.05,'Path ({}):'.format(distance_ver[current_vertex]) + str(path[::-1]), fontsize = 8)
+                                txt='Shortest Path ({}):'.format(distance_ver[current_vertex]) + str(path[::-1])
+                                plt.figtext(0.5, 0.01, txt, wrap=True, horizontalalignment='center', fontsize=8)
+#                                plt.text(-1.5,-1.5,'Path ({}):'.format(distance_ver[current_vertex]) + str(path[::-1]), fontsize = 8)
                         return time_excess                        
                 for nei in current_vertex.list_neighbors():
                         distance = current_distance + current_vertex.get_weight(nei)
@@ -108,6 +110,7 @@ def animated_Dijkstra_MinHeap_path(G, Gx, pos, start_node, end_node, n):
         return time_excess
 
 def animated_Dijkstra_FibHeap(G, Gx, pos, start_node, n):
+        axis = plt.axis()
         time_excess = 0
         distance_ver = {}
         fheap = makefheap()
@@ -117,33 +120,73 @@ def animated_Dijkstra_FibHeap(G, Gx, pos, start_node, n):
                 distance_ver[vertex] = float("INF")
         distance_ver[G.get_vertex(start_node)] = 0
         fheappush(fheap, (0, G.get_vertex(start_node)))
+        new_line = 0
+        x_axis = 0
+        y_axis = 0
         while fheap:
                 current_distance, current_vertex = fheappop(fheap)
                 if current_distance > distance_ver[current_vertex] :
                         continue
                 nx.draw_networkx_nodes(G, pos, nodelist = [current_vertex.index], node_color = 'red', node_size = 200, font_size = 12)
-           
+                txt = current_vertex.index + ':' + str(current_distance)
+                plt.text(axis[0] - 0.1 + x_axis, axis[2] - 0.2 - y_axis , txt)
+                new_line += 1
+                x_axis += 1.0
+                if new_line % 6 == 0:
+                        x_axis = 0
+                        y_axis += 0.5
                 for nei in current_vertex.list_neighbors():
                         distance = current_distance + current_vertex.get_weight(nei)
                         if distance < distance_ver[nei]:
                                 t1 = time.time()
                                 plt.pause(1e-32)
-                                time_excess += (time.time - t1)
+                                time_excess += (time.time() - t1)
                                 distance_ver[nei] = distance
                                 fheappush(fheap, (distance, nei))
                                 nx.draw_networkx_edges(Gx, pos, edgelist = [(current_vertex.index, nei.index)],  width = 1.5, edge_color = 'red')
+#        txt = ''
+#        for v in distance_ver :
+#                txt += (v.index + '-' + distance_ver[v] )
+#                txt += ' '
+#        plt.text(axis[0] - 0.1, axis[2] - 0.3, txt)
         return time_excess
+#def animated_Dijkstra_FibHeap(G, Gx, pos, start_node, n):
+#        time_excess = 0
+#        distance_ver = {}
+#        fheap = makefheap()
+#        for vertex in G.__iter__():
+#                if vertex == G.get_vertex(start_node):
+#                        continue
+#                distance_ver[vertex] = float("INF")
+#        distance_ver[G.get_vertex(start_node)] = 0
+#        fheappush(fheap, (0, G.get_vertex(start_node)))
+#        while fheap:
+#                current_distance, current_vertex = fheappop(fheap)
+#                if current_distance > distance_ver[current_vertex] :
+#                        continue
+#                nx.draw_networkx_nodes(G, pos, nodelist = [current_vertex.index], node_color = 'red', node_size = 200, font_size = 12)
+#           
+#                for nei in current_vertex.list_neighbors():
+#                        distance = current_distance + current_vertex.get_weight(nei)
+#                        if distance < distance_ver[nei]:
+#                                t1 = time.time()
+#                                plt.pause(1e-32)
+#                                time_excess += (time.time - t1)
+#                                distance_ver[nei] = distance
+#                                fheappush(fheap, (distance, nei))
+#                                nx.draw_networkx_edges(Gx, pos, edgelist = [(current_vertex.index, nei.index)],  width = 1.5, edge_color = 'red')
+#        return time_excess
 
 
 def initialize_fullGr(G, Gx, pos, start_node, n):
         plt.figure()
         node_labels = {node : node for node in Gx.nodes()}
-        edge_labels=dict([((u,v),d['weight']) for u,v,d in Gx.edges(data=True)])
-        font_label_size = 4
+#        edge_labels=dict([((u,v),d['weight']) for u,v,d in Gx.edges(data=True)])
+#        font_label_size = 4
 #        font_label_size = 8/(math.sqrt(n)*4)
         nx.draw_networkx_nodes(Gx, pos, node_color = 'green', node_size = 200, font_size = 12)
         nx.draw_networkx_edges(Gx, pos, width = 0.5, edge_color = 'blue')
-        nx.draw_networkx_edge_labels(Gx, pos, label_pos = 0.2, font_size = font_label_size, font_color = 'black', edge_labels=edge_labels)
+#        nx.draw_networkx_edge_labels(Gx, pos, label_pos = 0.2, font_size = font_label_size, font_color = 'black', edge_labels=edge_labels)
         nx.draw_networkx_labels(Gx, pos, font_size = 5, font_color = 'black', labels=node_labels)
         plt.plot()
         nx.draw_networkx_nodes(G, pos, nodelist = [start_node], node_color = 'yellow', node_size = 320, font_size = 12)
@@ -162,9 +205,9 @@ def plot_DMinHeap(G, Gx, pos, start_node, n):
 def plot_DFibHeap(G, Gx, pos, start_node, n):
         # Fibonacci Heap
         initialize_fullGr(G, Gx, pos, start_node, n)
-        plt.title('Dijkstra MinHeap \nGraph |V| = ('+str(n)+') '+'\nSource : ' + start_node  , loc = 'left')
+        plt.title('Dijkstra FibHeap \nGraph |V| = ('+str(n)+') '+'\nSource : ' + start_node  , loc = 'left')
         start_time = time.time()
-        time_excess = animated_Dijkstra_normal(G, Gx, pos, start_node, n)
+        time_excess = animated_Dijkstra_FibHeap(G, Gx, pos, start_node, n)
         print(time_excess)
         end_time = time.time()
         plt.title('Done\n Run time : ' + "%.5f" % (end_time - start_time - time_excess) + '(s)', color ='red', loc = 'right')
@@ -190,9 +233,11 @@ def plot_DMinHeap_path(G, Gx, pos, start_node, end_node, n):
 
 #n = 50
 #G = gen_random_fullGraph(n)
+from test_complexity import gen_random_fullGraph, gen_random_graph
 
-n = 10
-G = gen_random_graph(n, 30)
+n = 50
+G = gen_random_graph(n, 200)
+G = gen_random_fullGraph(50)
 start_node = random.choice(G.list_vertexes())
 end_node = random.choice(G.list_vertexes())
 end_node == start_node
@@ -203,17 +248,18 @@ for i in range(G.number_edges()):
 pos = nx.spring_layout(Gx, k = 0.3*1/math.sqrt(n), iterations = 1, scale = 1.0)
 #initialize_fullGr(G, Gx, pos, start_node, n)
 
+
 plot_Normal(G, Gx, pos, start_node, n)
 plot_DFibHeap(G, Gx, pos, start_node, n)
 plot_DMinHeap(G, Gx, pos, start_node, n)
-
+##
 plot_DMinHeap_path(G, Gx, pos, start_node, end_node, n)
 #from multiprocessing import Process
-#p1 = Process(target=plot_DMinHeap, args=(G, Gx, pos, start_node, n))
-#p2 = Process(target=plot_DFibHeap, args=(G, Gx, pos, start_node, n))
+#p1 = Process(target=plot_DMinHeap, args=(G, Gx, pos, start_node, n,))
 #p1.start()
+#p2 = Process(target=plot_DFibHeap, args=(G, Gx, pos, start_node, n,))
 #p2.start()
-## and so on
+### and so on
 #p1.join()
 #p2.join()
 

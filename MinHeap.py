@@ -8,17 +8,17 @@ from heapq import heappush, heappop, heapify
 # heapify  - transform list into heap, in place, in linear time 
   
 # A class for Min Heap 
+class Node:
+    def __init__(self, key):
+        self.key = key
+
 class MinHeap: 
 
         # Constructor to initialize a heap 
         def __init__(self):
                 self.heap = []
-                self.dict_vertex = {}
+                self.dict_ind = {}
 
-        def insertVertex(self, node : tuple):
-                self.dict_vertex[node[1]] = node[0]
-                self.insertKey(node[1])
-        
         def parent(self, i):
                 return (i-1)/2
 

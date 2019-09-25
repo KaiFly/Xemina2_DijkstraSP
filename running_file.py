@@ -38,7 +38,7 @@ plt.figure(2)
 Drawing.draw_path(path, position)
 plt.title('SP length : ' +str(l_path)) 
 #--------------------------------------------------------------------------------
-G_large = gen_random_graph(30, 200)
+G_large = gen_random_graph(10, 30)
 v1 = random.choice(G_large.list_vertexes())
 v2 = random.choice(G_large.list_vertexes())
 return_from_Dijkstra_1_path = Dijkstra_MinHeap(G_large, v1, v2)

@@ -1,6 +1,8 @@
 import matplotlib.pyplot as plt
 import networkx as nx
 import math
+from Dijkstra_3a import*
+from test_complexity import*
 
 class Graph_Drawing:
         def __init__(self, Graph):
@@ -30,7 +32,7 @@ class Graph_Drawing:
                 font_label_size = 8
                 if self.len >= 10 :
                         n = self.len
-                        edgewidth = [i/(math.sqrt(n)) for i in edgewidth]
+                        edgewidth = [i/(math.sqrt(n)*4) for i in edgewidth]
                         font_label_size = 8/(math.sqrt(n))
                 nx.draw_networkx_nodes(Gx, pos, node_color = 'green', node_size = 50, font_size = 12)
                 nx.draw_networkx_edge_labels(Gx, pos, label_pos = 0.3, font_size = font_label_size, font_color = 'black', edge_labels=edge_labels)
@@ -68,3 +70,6 @@ class Graph_Drawing:
                 nx.draw_networkx_labels(Gx, pos, font_size = 5, font_color = 'black', labels=node_labels)
                 
                 return pos
+        
+
+
